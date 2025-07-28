@@ -1,7 +1,5 @@
 ---
 import { getEnv } from '../lib/env'
-import voidFile from '../assets/void.png'
-import rss from '../assets/rss.svg'
 import podcast from '../assets/podcast.svg'
 import twitter from '../assets/twitter.svg'
 import github from '../assets/github.svg'
@@ -20,29 +18,27 @@ const TELEGRAM = getEnv(import.meta.env, Astro, 'TELEGRAM')
 const DISCORD = getEnv(import.meta.env, Astro, 'DISCORD')
 const MASTODON = getEnv(import.meta.env, Astro, 'MASTODON')
 const BLUESKY = getEnv(import.meta.env, Astro, 'BLUESKY')
-
-const staticProxy = getEnv(import.meta.env, Astro, 'STATIC_PROXY') ?? '/static/'
 ---
 
 <div id="header">
-  <a href={SITE_URL} title={channel?.title}>
-    <img
-      src={channel?.avatar?.startsWith('http') ? staticProxy + channel?.avatar : voidFile.src}
-      alt={channel?.title}
-      loading="eager"
-      class="header-avatar"
-    />
-  </a>
-  <div class="header-title">
-    <a href={SITE_URL} class="site-title" title={channel?.title}>
-      {channel?.title}
-    </a>
+  <div class="header-content">
+    <div class="header-links">
+      <a href="https://www.scchan.com" target="_blank" rel="noopener" title="Back to Homepage">Back to Homepage</a>
+      <a href="https://blog.scchan.moe" target="_blank" rel="noopener" title="Blog">Blog</a>
+      <a href={RSS_URL} target="_blank" rel="alternate" type="application/rss+xml" title="RSS Feed">RSS</a>
+    </div>
+    <h1 class="main-title">
+      <a href={SITE_URL} class="site-title" title={channel?.title}>
+        {channel?.title}
+      </a>
+    </h1>
+    {
+      channel?.descriptionHTML && channel?.descriptionHTML.length > 0 && (
+        <div class="sub-title" set:html={channel?.descriptionHTML} />
+      )
+    }
   </div>
   <div class="header-icons">
-    <a href={RSS_URL} target="_blank" rel="alternate" type="application/rss+xml" title="RSS Feed">
-      <img {...rss} alt="RSS" class="social-icon" width="1em" />
-    </a>
-
     {
       PODCASRT && (
         <a href={PODCASRT} target="_blank" title="Podcast">
@@ -101,21 +97,63 @@ const staticProxy = getEnv(import.meta.env, Astro, 'STATIC_PROXY') ?? '/static/'
   </div>
 </div>
 
-{
-  channel?.descriptionHTML && channel?.descriptionHTML.length > 0 && (
-    <div class="text-box" id="site-intro" set:html={channel?.descriptionHTML} />
-  )
-}
-
 <style>
-  #site-intro {
+  .header-content {
+    flex: 1;
+  }
+
+  .header-links {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
+
+  .header-links a {
     color: var(--secondary-color);
-    background-color: var(--code-background-color);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+
+  .header-links a:hover {
+    color: var(--foreground-color);
+    border-bottom-color: var(--foreground-color);
+  }
+
+  .main-title {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  .main-title .site-title {
+    color: var(--foreground-color);
+    text-decoration: none;
+  }
+
+  .main-title .site-title:hover {
+    color: var(--foreground-color);
+    text-decoration: none;
+  }
+
+  .sub-title {
+    color: var(--secondary-color);
+    font-size: 1.1rem;
+    line-height: 1.4;
+    font-weight: 400;
+    margin: 0;
     word-break: break-word;
 
     & :global(.emoji) {
       font-style: normal;
       margin-right: 2px;
+    }
+
+    & :global(p) {
+      margin: 0;
     }
   }
 

@@ -80,7 +80,7 @@
       left: var(--box-margin);
       padding-left: 4px;
       padding-right: 4px;
-      background-color: rgba(0, 0, 0, 0.66);
+      background-color: rgba(0, 0, 0, 0.8);
       font-size: 14px;
       color: #fff;
       line-height: 1.5;
@@ -167,8 +167,8 @@
       color: transparent;
       margin: auto 2px;
       border-radius: var(--box-border-radius);
-      background: #ccc 60% 60% / 3000px 3000px;
-      background-image: repeating-conic-gradient(#999 0 0.0001%, #0000 0 0.0002%);
+      background: #999 60% 60% / 3000px 3000px;
+      background-image: repeating-conic-gradient(#666 0 0.0001%, #0000 0 0.0002%);
     }
 
     input:checked + tg-spoiler {
@@ -219,7 +219,6 @@
   max-height: calc(100% - 40px) !important;
   border-radius: var(--media-border-radius);
   border: 1px solid var(--border-color);
-  box-shadow: var(--shadows);
   cursor: pointer;
   object-fit: scale-down;
 }
